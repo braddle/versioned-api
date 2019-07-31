@@ -1,5 +1,7 @@
 package person
 
+import "math/rand"
+
 func GetById(id int) Person {
 	return Person{
 		Id:          id,
@@ -9,4 +11,8 @@ func GetById(id int) Person {
 		HasTattoo:   false,
 		HasPiercing: false,
 	}
+}
+
+func Save(p *Person) {
+	p.Id = rand.Int()
 }
