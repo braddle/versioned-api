@@ -27,7 +27,10 @@ func personHandler(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(vars["id"])
 	p := person.GetById(id)
 
-	n := negotiator.New(&rest.PersonV1Processor{})
+	n := negotiator.New(
+		&rest.PersonV1Processor{},
+		&rest.PersonV2Processor{},
+	)
 	if err := n.Negotiate(w, r, p); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
