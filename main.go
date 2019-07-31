@@ -43,15 +43,7 @@ func personCreateV1Handler(w http.ResponseWriter, r *http.Request) {
 
 	person.Save(&p)
 
-	w.WriteHeader(http.StatusCreated)
-	n := negotiator.New(
-		&rest.PersonV1Processor{},
-		&rest.PersonV2Processor{},
-		&rest.PersonV3Processor{},
-	)
-	if err := n.Negotiate(w, r, p); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+	renderPerson(w, r, p, http.StatusCreated)
 }
 
 func personHandler(w http.ResponseWriter, r *http.Request) {
@@ -60,6 +52,11 @@ func personHandler(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(vars["id"])
 	p := person.GetById(id)
 
+	renderPerson(w, r, p, http.StatusOK)
+}
+
+func renderPerson(w http.ResponseWriter, r *http.Request, p person.Person, statusCode int) {
+	w.WriteHeader(statusCode)
 	n := negotiator.New(
 		&rest.PersonV1Processor{},
 		&rest.PersonV2Processor{},
