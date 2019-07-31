@@ -16,17 +16,17 @@ func main() {
 	fmt.Println("Staring Server")
 	r := mux.NewRouter()
 	r.HandleFunc("/person/{id}", personHandler).Methods(http.MethodGet)
-	r.HandleFunc("/person", personCreateHandler).
+	r.HandleFunc("/person", personCreateV1Handler).
 		Methods(http.MethodPost).
 		Headers("Content-Type", "application/vnd.person.v1+json")
-	r.HandleFunc("/person", personCreateHandler).
+	r.HandleFunc("/person", personCreateV1Handler).
 		Methods(http.MethodPost).
 		Headers("Content-Type", "application/json")
 
 	http.ListenAndServe(":8080", r)
 }
 
-func personCreateHandler(w http.ResponseWriter, r *http.Request) {
+func personCreateV1Handler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 

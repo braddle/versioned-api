@@ -10,6 +10,14 @@ import (
 
 type PersonV3Processor struct{}
 
+type PersonV3 struct {
+	Id          int
+	FirstName   string
+	LastName    string
+	HasTattoo   bool
+	HasPiercing bool
+}
+
 func (p *PersonV3Processor) CanProcess(mediaRange string) bool {
 	return strings.EqualFold(mediaRange, "application/vnd.person.v3+json")
 }
@@ -19,12 +27,12 @@ func (p *PersonV3Processor) Process(w http.ResponseWriter, req *http.Request, da
 
 	person, _ := dataModel.(person.Person)
 
-	p1 := map[string]interface{}{
-		"id":           person.Id,
-		"first_name":   person.FirstName,
-		"last_name":    person.LastName,
-		"has_tattoo":   person.HasTattoo,
-		"has_piercing": person.HasPiercing,
+	p1 := PersonV3{
+		Id:          person.Id,
+		FirstName:   person.FirstName,
+		LastName:    person.LastName,
+		HasTattoo:   person.HasTattoo,
+		HasPiercing: person.HasPiercing,
 	}
 
 	j, _ := json.Marshal(p1)
