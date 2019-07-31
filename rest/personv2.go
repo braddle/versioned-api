@@ -11,10 +11,10 @@ import (
 type PersonV2Processor struct{}
 
 type PersonV2 struct {
-	Id        int
-	FirstName string
-	LastName  string
-	HasTattoo bool
+	Id        int    `json:"id"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	HasTattoo bool   `json:"has_tattoo"`
 }
 
 func (p *PersonV2Processor) CanProcess(mediaRange string) bool {

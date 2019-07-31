@@ -21,6 +21,12 @@ func main() {
 	r.HandleFunc("/person", personCreateV1Handler).
 		Methods(http.MethodPost).
 		Headers("Content-Type", "application/vnd.person.v1+json")
+	r.HandleFunc("/person", personCreateV2Handler).
+		Methods(http.MethodPost).
+		Headers("Content-Type", "application/vnd.person.v2+json")
+	r.HandleFunc("/person", personCreateV3Handler).
+		Methods(http.MethodPost).
+		Headers("Content-Type", "application/vnd.person.v3+json")
 	r.HandleFunc("/person", personCreateV1Handler).
 		Methods(http.MethodPost).
 		Headers("Content-Type", "application/json")
@@ -39,6 +45,41 @@ func personCreateV1Handler(w http.ResponseWriter, r *http.Request) {
 		LastName:  p1.LastName,
 		Age:       p1.Age,
 		HasTattoo: p1.HasTattoo,
+	}
+
+	person.Save(&p)
+
+	renderPerson(w, r, p, http.StatusCreated)
+}
+
+func personCreateV2Handler(w http.ResponseWriter, r *http.Request) {
+	p2 := rest.PersonV2{}
+
+	body, _ := ioutil.ReadAll(r.Body)
+	json.Unmarshal(body, &p2)
+
+	p := person.Person{
+		FirstName: p2.FirstName,
+		LastName:  p2.LastName,
+		HasTattoo: p2.HasTattoo,
+	}
+
+	person.Save(&p)
+
+	renderPerson(w, r, p, http.StatusCreated)
+}
+
+func personCreateV3Handler(w http.ResponseWriter, r *http.Request) {
+	p3 := rest.PersonV3{}
+
+	body, _ := ioutil.ReadAll(r.Body)
+	json.Unmarshal(body, &p3)
+
+	p := person.Person{
+		FirstName:   p3.FirstName,
+		LastName:    p3.LastName,
+		HasTattoo:   p3.HasTattoo,
+		HasPiercing: p3.HasPiercing,
 	}
 
 	person.Save(&p)
