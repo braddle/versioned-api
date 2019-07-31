@@ -1,12 +1,12 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/jchannon/negotiator"
 )
 
 type person struct {
@@ -37,8 +37,7 @@ func personHandler(w http.ResponseWriter, r *http.Request) {
 		HasTattoo: false,
 	}
 
-	j, _ := json.Marshal(p)
-
-	w.Header().Add("Content-Type", "application/json")
-	w.Write(j)
+	if err := negotiator.Negotiate(w, r, p); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
