@@ -15,7 +15,7 @@ func (p *PersonV2Processor) CanProcess(mediaRange string) bool {
 }
 
 func (p *PersonV2Processor) Process(w http.ResponseWriter, req *http.Request, dataModel interface{}, context ...interface{}) error {
-	w.Header().Set("Content-Type", "application/vnd.person.v1+json")
+	w.Header().Set("Content-Type", "application/vnd.person.v2+json")
 
 	person, _ := dataModel.(person.Person)
 

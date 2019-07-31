@@ -30,6 +30,7 @@ func personHandler(w http.ResponseWriter, r *http.Request) {
 	n := negotiator.New(
 		&rest.PersonV1Processor{},
 		&rest.PersonV2Processor{},
+		&rest.PersonV3Processor{},
 	)
 	if err := n.Negotiate(w, r, p); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

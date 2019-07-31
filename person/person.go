@@ -1,9 +1,10 @@
 package person
 
 type Person struct {
-	Id        int
-	FirstName string
-	LastName  string
-	Age       int
-	HasTattoo bool
+	Id          int
+	FirstName   string
+	LastName    string
+	Age         int
+	HasTattoo   bool
+	HasPiercing bool
 }
